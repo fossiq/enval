@@ -2,7 +2,7 @@
   <strong>⚫ ENVAL</strong>
 </p>
 <p align="center">
-  A tiny helper that turns string inputs (like env vars) into useful types.
+  A highly opinionated way to parse env values that I find useful.
 </p>
 
 ---

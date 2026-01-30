@@ -1,7 +1,7 @@
 {
   "name": "@fossiq/enval",
   "version": "0.1.0",
-  "description": "Infer types from environment-like values.",
+  "description": "A highly opinionated way to parse env values that I find useful.",
   "type": "module",
   "exports": {
     ".": {
