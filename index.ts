@@ -1,4 +1,9 @@
 /**
+ * Special symbol to indicate that an infer function did not match/process the value.
+ */
+const NO_MATCH = Symbol("NO_MATCH");
+
+/**
  * The inferred output types returned by {@link enval} when no transformer is provided.
  */
 export type EnvalInferred =
@@ -53,7 +58,7 @@ function infer(value: unknown): EnvalInferred {
 
   for (const fn of inferFns) {
     const value = fn(lower);
-    if (value !== undefined) return value;
+    if (value !== NO_MATCH) return value;
   }
 
   return unquoted;
@@ -63,30 +68,35 @@ const inferFns = [
   function inferBoolean(lower: string) {
     if (["true", "yes", "on"].includes(lower)) return true;
     if (["false", "no", "off"].includes(lower)) return false;
+    return NO_MATCH;
   },
   function inferNullish(lower: string) {
     if (lower === "null") return null;
-    if (lower === "undefined") return;
+    if (lower === "undefined") return undefined;
+    return NO_MATCH;
   },
   function inferNumber(text: string) {
     const numberPattern = /^-?\d+(\.\d+)?([eE][+-]?\d+)?$/;
-    if (!numberPattern.test(text)) return;
+    if (!numberPattern.test(text)) return NO_MATCH;
 
     const num = Number(text);
     if (Number.isSafeInteger(num) || !Number.isInteger(num)) {
       return num;
     }
+    return NO_MATCH;
   },
   function inferJson(text: string) {
     if (
       (!text.startsWith("{") || !text.endsWith("}")) &&
       (!text.startsWith("[") || !text.endsWith("]"))
     ) {
-      return;
+      return NO_MATCH;
     }
 
     try {
       return JSON.parse(text);
-    } catch {}
+    } catch {
+      return NO_MATCH;
+    }
   },
 ];

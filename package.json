@@ -1,6 +1,6 @@
 {
   "name": "@fossiq/enval",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A highly opinionated way to parse env values that I find useful.",
   "type": "module",
   "exports": {
@@ -17,6 +17,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist",
+    "test": "bun test",
     "prepublishOnly": "npm run build",
     "publish:npm": "npm publish --access public",
     "publish:jsr": "jsr publish",
