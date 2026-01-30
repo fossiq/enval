@@ -1,6 +1,8 @@
-<p align="center">
-  <strong>⚫ ENVAL</strong>
-</p>
+<h1>
+  <p align="center">
+    <strong>⚫ ENVAL</strong>
+  </p>
+</h1>
 <p align="center">
   Infer types from environment-like values.
 </p>
@@ -28,7 +30,7 @@ enval("42"); // 42
 enval("3.14"); // 3.14
 enval("null"); // null
 enval("[1, 2, 3]"); // [1, 2, 3]
-enval("{\"enabled\": true}"); // { enabled: true }
+enval('{"enabled": true}'); // { enabled: true }
 
 enval("on", (inferred) => inferred === true); // true
 ```
