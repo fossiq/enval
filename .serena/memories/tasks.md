@@ -1,4 +1,0 @@
-- [ ] Review current source/export surface
-- [ ] Add package/JSR/TS config and publish scripts
-- [ ] Install deps and run build
-- [ ] Initialize git repo, create GitHub repo, and push

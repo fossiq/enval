@@ -1,7 +1,7 @@
 /**
  * Special symbol to indicate that an infer function did not match/process the value.
  */
-const NO_MATCH = Symbol("NO_MATCH");
+const NO_MATCH = Symbol("≇");
 
 /**
  * The inferred output types returned by {@link enval} when no transformer is provided.

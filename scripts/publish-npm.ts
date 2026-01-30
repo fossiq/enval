@@ -10,7 +10,7 @@ console.log(`Local version: ${localVersion}`);
 
 // Check remote version
 try {
-  const remoteVersion = await $`npm view @fossiq/enval version`.text();
+  const remoteVersion = await $`bunx npm@latest view @fossiq/enval version`.text();
   const cleanVersion = remoteVersion.trim();
   console.log(`Remote npm version: ${cleanVersion}`);
   
@@ -24,7 +24,7 @@ try {
 
 // Attempt to publish
 try {
-  const output = await $`npm publish --access public`.text();
+  const output = await $`bunx npm@latest publish --access public`.text();
   console.log(output);
   console.log("Successfully published to npm!");
 } catch (error: any) {
