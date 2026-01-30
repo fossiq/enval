@@ -20,3 +20,15 @@ import { enval } from "@fossiq/enval";
 
 enval("true"); // true
 ```
+
+## Examples
+
+```ts
+enval("42"); // 42
+enval("3.14"); // 3.14
+enval("null"); // null
+enval("[1, 2, 3]"); // [1, 2, 3]
+enval("{\"enabled\": true}"); // { enabled: true }
+
+enval("on", (inferred) => inferred === true); // true
+```
