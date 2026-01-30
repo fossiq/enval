@@ -111,3 +111,35 @@ const port = enval(process.env.PORT, (inferred) => {
   return num;
 });
 ```
+
+## Development
+
+### Setup
+
+After cloning, run:
+
+```sh
+bun install
+```
+
+This automatically installs a pre-commit hook that runs Biome linting on staged files.
+
+### Editor Integration
+
+For Zed editor users, this project includes `.zed/settings.json` that enables:
+- Format on save with Biome
+- Real-time linting feedback
+- Automatic fixing of style issues
+
+### Pre-commit Hook
+
+The pre-commit hook automatically:
+- Lints only the files you're committing
+- Fixes issues automatically where possible
+- Re-stages fixed files
+
+To manually install/update the hook:
+
+```sh
+bun run prepare
+```
