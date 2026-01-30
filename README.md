@@ -63,13 +63,6 @@ enval('"hello"'); // "hello"
 enval("  text  "); // "text"
 ```
 
-TypeScript generics
-
-```ts
-enval<string[]>('["a", "b"]'); // string[]
-enval<{ host: string }>('{"host": "localhost"}'); // { host: string }
-```
-
 Constructor shorthand
 
 ```ts
@@ -87,6 +80,13 @@ enval('["a", "b", "a"]', Set); // Set(2) { "a", "b" }
 ---
 
 ## Nice to Know
+
+TypeScript type hints
+
+```ts
+enval<string[]>('["a", "b"]'); // string[]
+enval<{ host: string }>('{"host": "localhost"}'); // { host: string }
+```
 
 Optional values with defaults
 
