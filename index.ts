@@ -1,3 +1,6 @@
+/**
+ * The inferred output types returned by {@link enval} when no transformer is provided.
+ */
 export type EnvalInferred =
   | string
   | number
@@ -6,10 +9,24 @@ export type EnvalInferred =
   | undefined
   | object;
 
+/**
+ * Transforms the inferred value into a custom shape.
+ */
 export type EnvalTransformer<T> = (inferred: EnvalInferred, raw: unknown) => T;
 
+/**
+ * Parse a value and run it through a transformer for custom behavior.
+ */
 export function enval<T>(value: unknown, transformer: EnvalTransformer<T>): T;
+
+/**
+ * Parse a value into a typed representation based on env-style input.
+ */
 export function enval<T = EnvalInferred>(value: unknown): T;
+
+/**
+ * Parse a value into a boolean, number, null/undefined, JSON, or keep it as a string.
+ */
 export function enval<T>(value: unknown, transformer?: EnvalTransformer<T>): T {
   const inferred = infer(value);
 
