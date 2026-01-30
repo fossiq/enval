@@ -1,11 +1,9 @@
-<p align="center">
-  <strong>⚫ ENVAL</strong>
-</p>
+<h1 align="center">
+  <strong>≅ enval</strong>
+</h1>
 <p align="center">
   A highly opinionated way to parse env values that I find useful.
 </p>
-
----
 
 Enval guesses the type of a value by looking at its string form, so you can stop writing repetitive parsing logic.
 It keeps things simple: booleans, numbers, null/undefined, and JSON are recognized, and everything else stays a string.
