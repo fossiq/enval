@@ -1,55 +1,44 @@
 import { $ } from "bun";
 
+type BuildVariant = {
+  target: "browser" | "node";
+  format: "esm" | "cjs";
+  naming: string;
+  minify: boolean;
+};
+
 // Clean dist folder
 await $`rm -rf dist`;
 await $`mkdir -p dist`;
 
-// Build ESM (unminified)
-await Bun.build({
-  entrypoints: ["./index.ts"],
-  outdir: "./dist",
-  target: "browser",
-  format: "esm",
-  naming: "[dir]/index.js",
-  minify: false,
-  sourcemap: "external",
-});
+const buildVariants: BuildVariant[] = [
+  { target: "browser", format: "esm", naming: "[dir]/index.js", minify: false },
+  {
+    target: "browser",
+    format: "esm",
+    naming: "[dir]/index.min.js",
+    minify: true,
+  },
+  { target: "node", format: "cjs", naming: "[dir]/index.cjs", minify: false },
+  {
+    target: "node",
+    format: "cjs",
+    naming: "[dir]/index.min.cjs",
+    minify: true,
+  },
+];
 
-// Build ESM (minified)
-await Bun.build({
-  entrypoints: ["./index.ts"],
-  outdir: "./dist",
-  target: "browser",
-  format: "esm",
-  naming: "[dir]/index.min.js",
-  minify: true,
-  sourcemap: "external",
-});
-
-// Build CJS (unminified)
-await Bun.build({
-  entrypoints: ["./index.ts"],
-  outdir: "./dist",
-  target: "node",
-  format: "cjs",
-  naming: "[dir]/index.cjs",
-  minify: false,
-  sourcemap: "external",
-});
-
-// Build CJS (minified)
-await Bun.build({
-  entrypoints: ["./index.ts"],
-  outdir: "./dist",
-  target: "node",
-  format: "cjs",
-  naming: "[dir]/index.min.cjs",
-  minify: true,
-  sourcemap: "external",
-});
-
-// Generate TypeScript declarations
-await $`bunx tsc -p tsconfig.json --emitDeclarationOnly --declaration --outDir dist`;
+await Promise.all([
+  ...buildVariants.map((variant) =>
+    Bun.build({
+      entrypoints: ["./index.ts"],
+      outdir: "./dist",
+      sourcemap: "external",
+      ...variant,
+    }),
+  ),
+  $`bunx @typescript/native-preview -p tsconfig.json --emitDeclarationOnly --declaration --outDir dist`,
+]);
 
 console.log("✅ Build complete!");
 console.log("📦 Generated files:");
