@@ -5,6 +5,12 @@
   A highly opinionated way to parse env values that I find useful.
 </p>
 
+<p align="center">
+  <a href="https://github.com/fossiq/enval/actions/workflows/publish.yml"><img src="https://github.com/fossiq/enval/actions/workflows/publish.yml/badge.svg" alt="Publish to JSR and npm"></a>
+  <a href="https://jsr.io/@fossiq/enval"><img src="https://jsr.io/badges/@fossiq/enval" alt="JSR"></a>
+  <a href="https://www.npmjs.com/package/@fossiq/enval"><img src="https://img.shields.io/npm/v/@fossiq/enval" alt="npm version"></a>
+</p>
+
 This is a **highly opinionated** utility that guesses the type of a value by looking at its string form, so you can stop writing repetitive parsing logic.
 It keeps things simple and opinionated: booleans, numbers, null/undefined, and JSON are recognized automatically, and everything else stays a string.
 

@@ -1,7 +1,9 @@
 name: Publish to JSR and npm
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
   release:
     types: [published]
 
