@@ -1,39 +1,30 @@
-name: Publish to JSR and npm
+name: CI & Publish
 
 on:
   push:
     branches:
       - main
-  release:
-    types: [published]
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
-  jsr:
+  ci:
+    name: CI
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+        with:
+          cache: true
       - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run test
       - run: bun run build
-      - name: Publish to JSR
-        run: bun scripts/publish-jsr.ts
-
-  npm:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
-      - run: bun run build
-      - name: Publish to npm
-        run: bun scripts/publish-npm.ts
+      - run: bun scripts/publish-jsr.ts
+      - run: bun scripts/publish-npm.ts
+      - name: Create GitHub Release
+        run: bun scripts/create-release.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
