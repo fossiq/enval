@@ -5,8 +5,8 @@
   A highly opinionated way to parse env values that I find useful.
 </p>
 
-Enval guesses the type of a value by looking at its string form, so you can stop writing repetitive parsing logic.
-It keeps things simple: booleans, numbers, null/undefined, and JSON are recognized, and everything else stays a string.
+This is a **highly opinionated** utility that guesses the type of a value by looking at its string form, so you can stop writing repetitive parsing logic.
+It keeps things simple and opinionated: booleans, numbers, null/undefined, and JSON are recognized automatically, and everything else stays a string.
 
 ## Install
 

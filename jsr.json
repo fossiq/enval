@@ -1,6 +1,7 @@
 {
   "name": "@fossiq/enval",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "A highly opinionated way to parse env-style strings into inferred booleans, numbers, null/undefined, JSON, or strings.",
   "license": "MIT",
   "exports": "./index.ts"
 }
