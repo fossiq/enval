@@ -1,6 +1,6 @@
 {
   "name": "@fossiq/enval",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A highly opinionated way to parse env values that I find useful.",
   "type": "module",
   "exports": {

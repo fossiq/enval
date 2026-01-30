@@ -3,10 +3,7 @@
  */
 const NO_MATCH = Symbol("≇");
 
-/**
- * The inferred output types returned by {@link enval} when no transformer is provided.
- */
-export type EnvalInferred =
+type inferType =
   | string
   | number
   | boolean
@@ -15,24 +12,22 @@ export type EnvalInferred =
   | object;
 
 /**
- * Transforms the inferred value into a custom shape.
- */
-export type EnvalTransformer<T> = (inferred: EnvalInferred, raw: unknown) => T;
-
-/**
  * Parse a value and run it through a transformer for custom behavior.
  */
-export function enval<T>(value: unknown, transformer: EnvalTransformer<T>): T;
+export function enval<T, R>(value: unknown, transformer: (inferred: T, raw: unknown) => R): R;
 
 /**
  * Parse a value into a typed representation based on env-style input.
  */
-export function enval<T = EnvalInferred>(value: unknown): T;
+export function enval<T = inferType>(value: unknown): T;
 
 /**
  * Parse a value into a boolean, number, null/undefined, JSON, or keep it as a string.
  */
-export function enval<T>(value: unknown, transformer?: EnvalTransformer<T>): T {
+export function enval<T>(
+  value: unknown,
+  transformer?: (inferred: inferType, raw: unknown) => T
+): T {
   const inferred = infer(value);
 
   if (transformer) {
@@ -42,9 +37,9 @@ export function enval<T>(value: unknown, transformer?: EnvalTransformer<T>): T {
   return inferred as T;
 }
 
-function infer(value: unknown): EnvalInferred {
+function infer(value: unknown): inferType {
   if (typeof value !== "string") {
-    return value as EnvalInferred;
+    return value as inferType;
   }
 
   const text = value.trim();
@@ -57,22 +52,22 @@ function infer(value: unknown): EnvalInferred {
   const lower = unquoted.toLowerCase();
 
   for (const fn of inferFns) {
-    const value = fn(lower);
-    if (value !== NO_MATCH) return value;
+    const result = fn(lower);
+    if (result !== NO_MATCH) return result;
   }
 
   return unquoted;
 }
 
 const inferFns = [
-  function inferBoolean(lower: string) {
-    if (["true", "yes", "on"].includes(lower)) return true;
-    if (["false", "no", "off"].includes(lower)) return false;
+  function inferNullish(text: string) {
+    if (text === "null") return null;
+    if (text === "undefined") return undefined;
     return NO_MATCH;
   },
-  function inferNullish(lower: string) {
-    if (lower === "null") return null;
-    if (lower === "undefined") return undefined;
+  function inferBoolean(text: string) {
+    if (["true", "yes", "on"].includes(text)) return true;
+    if (["false", "no", "off"].includes(text)) return false;
     return NO_MATCH;
   },
   function inferNumber(text: string) {
@@ -80,23 +75,19 @@ const inferFns = [
     if (!numberPattern.test(text)) return NO_MATCH;
 
     const num = Number(text);
-    if (Number.isSafeInteger(num) || !Number.isInteger(num)) {
-      return num;
-    }
-    return NO_MATCH;
+    return Number.isSafeInteger(num) || !Number.isInteger(num) ? num : NO_MATCH;
   },
   function inferJson(text: string) {
     if (
-      (!text.startsWith("{") || !text.endsWith("}")) &&
-      (!text.startsWith("[") || !text.endsWith("]"))
+      (text.startsWith("{") && text.endsWith("}")) ||
+      (text.startsWith("[") && text.endsWith("]"))
     ) {
-      return NO_MATCH;
+      try {
+        return JSON.parse(text);
+      } catch {
+        return NO_MATCH;
+      }
     }
-
-    try {
-      return JSON.parse(text);
-    } catch {
-      return NO_MATCH;
-    }
+    return NO_MATCH;
   },
 ];
