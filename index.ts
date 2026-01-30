@@ -1,15 +1,9 @@
 /**
  * Special symbol to indicate that an infer function did not match/process the value.
  */
-const NO_MATCH = Symbol("≇");
+const NO_MATCH: unique symbol = Symbol("≇");
 
-type inferType =
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | object;
+type inferType = string | number | boolean | null | undefined | object;
 
 /**
  * Parse a value and run it through a transformer for custom behavior.
@@ -26,7 +20,7 @@ export function enval<T = inferType>(value: unknown): T;
  */
 export function enval<T>(
   value: unknown,
-  transformer?: (inferred: inferType, raw: unknown) => T
+  transformer?: (inferred: inferType, raw: unknown) => T,
 ): T {
   const inferred = infer(value);
 

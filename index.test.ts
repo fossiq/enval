@@ -1,5 +1,5 @@
-import { describe, test, expect } from "bun:test";
-import { enval, type EnvalTransformer } from "./index";
+import { describe, expect, test } from "bun:test";
+import { enval } from "./index";
 
 describe("enval", () => {
   describe("non-string values", () => {
@@ -245,8 +245,7 @@ describe("enval", () => {
 
   describe("transformers", () => {
     test("should apply custom transformer to inferred value", () => {
-      const transformer: EnvalTransformer<string> = (inferred) =>
-        String(inferred).toUpperCase();
+      const transformer = (inferred: unknown) => String(inferred).toUpperCase();
 
       expect(enval("hello", transformer)).toBe("HELLO");
       expect(enval("true", transformer)).toBe("TRUE");
@@ -254,10 +253,7 @@ describe("enval", () => {
     });
 
     test("should provide both inferred and raw values to transformer", () => {
-      const transformer: EnvalTransformer<{ inferred: any; raw: any }> = (
-        inferred,
-        raw
-      ) => ({
+      const transformer = (inferred: unknown, raw: unknown) => ({
         inferred,
         raw,
       });
@@ -270,7 +266,7 @@ describe("enval", () => {
     });
 
     test("should allow transformer to return different types", () => {
-      const toNumber: EnvalTransformer<number> = (inferred) => {
+      const toNumber = (inferred: unknown): number => {
         if (typeof inferred === "number") return inferred;
         if (typeof inferred === "boolean") return inferred ? 1 : 0;
         return 0;
@@ -283,7 +279,7 @@ describe("enval", () => {
     });
 
     test("should work with complex transformations", () => {
-      const parseList: EnvalTransformer<string[]> = (inferred) => {
+      const parseList = (inferred: unknown): string[] => {
         if (Array.isArray(inferred)) return inferred.map(String);
         if (typeof inferred === "string") return inferred.split(",").map((s) => s.trim());
         return [];
@@ -295,8 +291,7 @@ describe("enval", () => {
     });
 
     test("should apply transformer to non-string values", () => {
-      const stringify: EnvalTransformer<string> = (inferred) =>
-        JSON.stringify(inferred);
+      const stringify = (inferred: unknown): string => JSON.stringify(inferred);
 
       expect(enval(123, stringify)).toBe("123");
       expect(enval({ key: "value" }, stringify)).toBe('{"key":"value"}');

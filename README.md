@@ -73,7 +73,7 @@ enval<{ host: string }>('{"host": "localhost"}'); // { host: string }
 Constructor shorthand
 
 ```ts
-enval<string[]>('["a", "b", "a"]', Set); // Set(2) { "a", "b" }
+enval('["a", "b", "a"]', Set); // Set(2) { "a", "b" }
 ```
 
 ## Parsing Order
