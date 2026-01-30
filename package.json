@@ -1,0 +1,37 @@
+{
+  "name": "@fossiq/enval",
+  "version": "0.1.0",
+  "description": "Infer types from environment-like values.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build",
+    "publish:npm": "npm publish --access public",
+    "publish:jsr": "jsr publish",
+    "publish:all": "npm run build && npm run publish:npm && npm run publish:jsr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fossiq/enval.git"
+  },
+  "keywords": [
+    "env",
+    "types",
+    "inference"
+  ],
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
