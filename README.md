@@ -9,6 +9,7 @@
   <a href="https://github.com/fossiq/enval/actions/workflows/publish.yml"><img src="https://github.com/fossiq/enval/actions/workflows/publish.yml/badge.svg" alt="Publish to JSR and npm"></a>
   <a href="https://jsr.io/@fossiq/enval"><img src="https://jsr.io/badges/@fossiq/enval" alt="JSR"></a>
   <a href="https://www.npmjs.com/package/@fossiq/enval"><img src="https://img.shields.io/npm/v/@fossiq/enval" alt="npm version"></a>
+  <a href="https://bundlephobia.com/package/@fossiq/enval"><img src="https://img.shields.io/bundlephobia/minzip/@fossiq/enval" alt="Bundle size"></a>
 </p>
 
 This is a **highly opinionated** utility that guesses the type of a value by looking at its string form, so you can stop writing repetitive parsing logic.
